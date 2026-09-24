@@ -1,4 +1,4 @@
-import { app } from '../src/application.js';
+import { app } from '../src/server.js';
 
 export default function handler(request, response) {
 	// Vercel peut transmettre le chemin avec ou sans le préfixe /api.
