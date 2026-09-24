@@ -289,6 +289,21 @@ postgresql://...@...pooler.supabase.com:6543/postgres?sslmode=require
 
 Cliquer ensuite sur **Deploy**.
 
+### 4. Vérifier que Vercel utilise bien la variable
+
+Le fichier `.env` présent sur ton ordinateur n'est jamais envoyé à Vercel. Il faut saisir la variable directement dans Vercel :
+
+1. Ouvrir **Project Settings**.
+2. Ouvrir **Environment Variables**.
+3. Modifier `DATABASE_URL` si elle existe déjà, ou cliquer sur **Add New**.
+4. Coller l'URI **Transaction pooler** copiée depuis Supabase.
+5. Activer les environnements **Production**, **Preview** et **Development**.
+6. Enregistrer.
+7. Aller dans **Deployments**.
+8. Ouvrir le menu du dernier déploiement et choisir **Redeploy**.
+
+Une modification de `.env` local ne modifie jamais automatiquement la variable de Vercel.
+
 ## Partie 5 : vérifier le déploiement
 
 Vercel fournit une URL, par exemple :
@@ -371,6 +386,8 @@ Vérifier :
 - que le dernier déploiement Vercel est terminé ;
 - les logs dans **Vercel > Deployments > Functions**.
 
+Si Vercel affiche `500 FUNCTION_INVOCATION_FAILED`, ouvrir les **Runtime Logs** du déploiement. Vérifier que `DATABASE_URL` est définie dans Vercel et pas seulement dans le fichier `.env` local, puis redéployer.
+
 ### `/api/health` fonctionne mais `/api/statistics` renvoie `500`
 
 La fonction Vercel fonctionne, mais la connexion PostgreSQL échoue. Vérifier :
@@ -380,6 +397,8 @@ La fonction Vercel fonctionne, mais la connexion PostgreSQL échoue. Vérifier :
 - l'utilisation de l'URI **Transaction pooler** ;
 - la présence de `?sslmode=require` ;
 - l'exécution complète de `schema.sql`.
+
+Si `/api/statistics` fonctionne en local mais échoue sur Vercel, le code et Supabase sont probablement corrects : la variable `DATABASE_URL` de Vercel est différente de celle du fichier `.env` local, ou elle n'est pas activée pour l'environnement **Production**.
 
 ### `relation "authors" does not exist`
 
