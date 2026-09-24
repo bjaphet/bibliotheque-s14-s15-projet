@@ -4,6 +4,8 @@ API REST développée avec Node.js, Express et PostgreSQL. Elle permet de gérer
 
 L'interface frontend est servie par le même serveur et se consulte à l'adresse `http://localhost:3000/`.
 
+> Pour un déploiement détaillé avec Supabase et Vercel, consulter le guide [DEPLOIEMENT_SUPABASE_VERCEL.md](DEPLOIEMENT_SUPABASE_VERCEL.md).
+
 ## Prérequis
 
 - Node.js installé.
