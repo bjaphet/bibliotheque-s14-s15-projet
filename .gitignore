@@ -40,3 +40,8 @@ desktop.ini
 *.db
 *.dump
 *.bak
+
+.vercel/
+.DEPLOIEMENT_SUPABASE_VERCEL.md
+.__readme.md
+.Percipio Track S14 - Express.js _ Routing, Middleware & REST API.pdf
