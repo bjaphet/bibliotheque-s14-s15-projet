@@ -1,3 +1,42 @@
+# Dépendances
 node_modules/
+
+# Variables d'environnement et secrets
 .env
+.env.*
+!.env.example
+*.local
+
+# Logs et fichiers de diagnostic
 *.log
+logs/
+reports/
+
+# Fichiers générés par les outils de développement
+.vercel/
+coverage/
+dist/
+build/
+*.tsbuildinfo
+
+# Fichiers temporaires et système Windows/macOS/Linux
+*.tmp
+*.temp
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Configuration locale des éditeurs
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# Bases de données locales et sauvegardes
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.bak

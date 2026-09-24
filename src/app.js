@@ -1,4 +1,6 @@
 import express from 'express';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import authorsRouter from './routes/authors.js';
 import membersRouter from './routes/members.js';
 import booksRouter from './routes/books.js';
@@ -8,9 +10,11 @@ import { logger } from './middleware/logger.js';
 import { errorHandler, notFound } from './middleware/errors.js';
 
 export const app = express();
+const publicDirectory = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public');
 
 app.use(logger);
 app.use(express.json());
+app.use(express.static(publicDirectory));
 
 app.get('/api/health', (_request, response) => {
   response.json({ status: 'ok' });

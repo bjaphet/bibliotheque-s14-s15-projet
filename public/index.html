@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interface de gestion de bibliothèque">
+    <title>Bibliothèque | Pilotage</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#dashboard" data-view="dashboard">
+          <span class="brand-mark">B</span>
+          <span><strong>Le Rayon</strong><small>gestion bibliothèque</small></span>
+        </a>
+        <nav class="main-nav" aria-label="Navigation principale">
+          <a href="#dashboard" data-view="dashboard" class="nav-link is-active"><span>◈</span> Tableau de bord</a>
+          <a href="#books" data-view="books" class="nav-link"><span>▤</span> Livres</a>
+          <a href="#members" data-view="members" class="nav-link"><span>♙</span> Adhérents</a>
+          <a href="#loans" data-view="loans" class="nav-link"><span>↗</span> Emprunts</a>
+          <a href="#authors" data-view="authors" class="nav-link"><span>✦</span> Auteurs</a>
+        </nav>
+        <div class="sidebar-footer"><span class="status-dot"></span> API connectée <small id="api-status">vérification…</small></div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+          <div><p class="eyebrow">ESPACE DE PILOTAGE</p><h1 id="page-title">Tableau de bord</h1></div>
+          <div class="topbar-date" id="current-date"></div>
+        </header>
+
+        <div id="toast" class="toast" role="status"></div>
+
+        <section id="dashboard-view" class="view is-visible">
+          <div class="welcome-row"><div><p class="eyebrow">VUE D'ENSEMBLE</p><h2>La collection, en un regard.</h2></div><button class="button button-dark" data-view="loans">+ Nouvel emprunt</button></div>
+          <div class="stat-grid">
+            <article class="stat-card stat-primary"><span class="stat-label">Livres au catalogue</span><strong id="stat-books">—</strong><span class="stat-foot">collection totale</span></article>
+            <article class="stat-card"><span class="stat-label">Adhérents</span><strong id="stat-members">—</strong><span class="stat-foot">lecteurs inscrits</span></article>
+            <article class="stat-card"><span class="stat-label">Emprunts en cours</span><strong id="stat-active">—</strong><span class="stat-foot">sorties actuellement</span></article>
+            <article class="stat-card stat-alert"><span class="stat-label">À surveiller</span><strong id="stat-overdue">—</strong><span class="stat-foot">emprunts en retard</span></article>
+          </div>
+          <div class="dashboard-grid">
+            <article class="panel panel-large"><div class="panel-heading"><div><p class="eyebrow">ACTIVITÉ</p><h3>Emprunts à suivre</h3></div><a href="#loans" data-view="loans" class="text-link">Voir tout →</a></div><div id="dashboard-loans" class="loan-list"><div class="empty-state">Chargement…</div></div></article>
+            <article class="panel"><div class="panel-heading"><div><p class="eyebrow">DISTINCTIONS</p><h3>Les plus actifs</h3></div></div><div id="leaders" class="leaders"><div class="empty-state">Chargement…</div></div></article>
+          </div>
+        </section>
+
+        <section id="books-view" class="view">
+          <div class="section-heading"><div><p class="eyebrow">CATALOGUE</p><h2>Livres</h2><p>Recherchez, ajoutez et suivez la disponibilité des ouvrages.</p></div><button class="button button-dark" data-open-form="book-form">+ Ajouter un livre</button></div>
+          <form id="book-search" class="search-bar"><input id="book-query" type="search" placeholder="Rechercher un titre ou un auteur…"><button class="button button-light" type="submit">Rechercher</button></form>
+          <div id="book-form" class="panel form-panel is-hidden"><div class="panel-heading"><h3>Nouveau livre</h3><button type="button" class="icon-button" data-close-form="book-form">×</button></div><form id="create-book-form" class="form-grid"><label>Titre<input name="title" required></label><label>Auteur<select name="authorId" id="book-author" required></select></label><label>Année de publication<input name="publicationYear" type="number" min="0" max="2100" required></label><button class="button button-dark" type="submit">Enregistrer le livre</button></form></div>
+          <div class="panel table-panel"><div id="books-table" class="table-wrap"><div class="empty-state">Chargement…</div></div><div id="books-pagination" class="pagination"></div></div>
+        </section>
+
+        <section id="members-view" class="view">
+          <div class="section-heading"><div><p class="eyebrow">COMMUNAUTÉ</p><h2>Adhérents</h2><p>Gérez les lecteurs et consultez leur historique.</p></div><button class="button button-dark" data-open-form="member-form">+ Ajouter un adhérent</button></div>
+          <div id="member-form" class="panel form-panel is-hidden"><div class="panel-heading"><h3>Nouvel adhérent</h3><button type="button" class="icon-button" data-close-form="member-form">×</button></div><form id="create-member-form" class="form-grid"><label>Nom complet<input name="name" required></label><label>Contact<input name="contact" required placeholder="email ou téléphone"></label><button class="button button-dark" type="submit">Enregistrer l'adhérent</button></form></div>
+          <div class="panel table-panel"><div id="members-table" class="table-wrap"><div class="empty-state">Chargement…</div></div></div>
+          <div id="member-history" class="panel is-hidden"><div class="panel-heading"><h3 id="history-title">Historique</h3><button class="icon-button" data-close-history>×</button></div><div id="history-content"></div></div>
+        </section>
+
+        <section id="loans-view" class="view">
+          <div class="section-heading"><div><p class="eyebrow">CIRCULATION</p><h2>Emprunts</h2><p>Enregistrez les sorties et les retours de livres.</p></div><button class="button button-dark" data-open-form="loan-form">+ Nouvel emprunt</button></div>
+          <div id="loan-form" class="panel form-panel is-hidden"><div class="panel-heading"><h3>Enregistrer un emprunt</h3><button type="button" class="icon-button" data-close-form="loan-form">×</button></div><form id="create-loan-form" class="form-grid"><label>Adhérent<select name="memberId" id="loan-member" required></select></label><label>Livre disponible<select name="bookId" id="loan-book" required></select></label><label>Date de retour prévue<input name="dueAt" type="date" required></label><button class="button button-dark" type="submit">Valider l'emprunt</button></form></div>
+          <div class="filter-tabs"><button class="filter-tab is-active" data-loan-filter="current">En cours</button><button class="filter-tab" data-loan-filter="overdue">En retard</button><button class="filter-tab" data-loan-filter="all">Historique complet</button></div>
+          <div class="panel table-panel"><div id="loans-table" class="table-wrap"><div class="empty-state">Chargement…</div></div></div>
+        </section>
+
+        <section id="authors-view" class="view">
+          <div class="section-heading"><div><p class="eyebrow">CRÉATEURS</p><h2>Auteurs</h2><p>Le répertoire des auteurs de la collection.</p></div><button class="button button-dark" data-open-form="author-form">+ Ajouter un auteur</button></div>
+          <div id="author-form" class="panel form-panel is-hidden"><div class="panel-heading"><h3>Nouvel auteur</h3><button type="button" class="icon-button" data-close-form="author-form">×</button></div><form id="create-author-form" class="form-grid"><label>Nom<input name="name" required></label><label>Nationalité<input name="nationality" required></label><button class="button button-dark" type="submit">Enregistrer l'auteur</button></form></div>
+          <div class="panel table-panel"><div id="authors-table" class="table-wrap"><div class="empty-state">Chargement…</div></div></div>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
